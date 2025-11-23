@@ -11,20 +11,23 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:daydream/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  testWidgets('DayDream app loads with bottom navigation',
+      (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(find.text('今日'), findsWidgets);
+    expect(find.text('往日'), findsOneWidget);
+    expect(find.text('设置'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Switch to 往日 tab
+    await tester.tap(find.text('往日'));
+    await tester.pumpAndSettle();
+    expect(find.text('还没有往日记录'), findsOneWidget);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Switch to 设置 tab
+    await tester.tap(find.text('设置'));
+    await tester.pumpAndSettle();
+    expect(find.text('关于作者'), findsOneWidget);
   });
 }
+
