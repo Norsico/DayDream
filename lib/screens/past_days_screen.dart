@@ -5,6 +5,8 @@ import '../providers/event_provider.dart';
 import '../utils/date_utils.dart';
 import '../models/timeline_entry.dart';
 import '../widgets/timeline_item.dart';
+import '../widgets/edit_event_dialog.dart';
+import 'history_calendar_screen.dart';
 
 class PastDaysScreen extends StatelessWidget {
   const PastDaysScreen({super.key});
@@ -18,6 +20,20 @@ class PastDaysScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('往日'),
+        actions: [
+          TextButton.icon(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const HistoryCalendarScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.auto_graph_outlined, size: 18),
+            label: const Text('历史统计图'),
+          ),
+        ],
       ),
       body: uniqueDates.isEmpty
           ? Center(
@@ -41,40 +57,19 @@ class PastDaysScreen extends StatelessWidget {
     final theme = Theme.of(context);
     final items = <Widget>[];
     String? currentMonthLabel;
-    int? currentWeekNumber;
 
     for (final date in uniqueDates) {
       final monthLabel = DateFormat('yyyy年MM月').format(date);
-      final weekNumber = DateHelper.getWeekNumber(date);
       final events = eventProvider.getEventsForDate(date);
 
       if (monthLabel != currentMonthLabel) {
         currentMonthLabel = monthLabel;
-        currentWeekNumber = null;
         items.add(
           Padding(
             padding: const EdgeInsets.only(top: 16, bottom: 8),
             child: Text(
               currentMonthLabel!,
               style: theme.textTheme.headlineSmall,
-            ),
-          ),
-        );
-      }
-
-      if (weekNumber != currentWeekNumber) {
-        currentWeekNumber = weekNumber;
-        items.add(
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Chip(
-              backgroundColor: theme.colorScheme.primary.withOpacity(0.1),
-              label: Text(
-                '第${weekNumber}周 (${DateHelper.getWeekRangeLabel(date)})',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.primary,
-                ),
-              ),
             ),
           ),
         );

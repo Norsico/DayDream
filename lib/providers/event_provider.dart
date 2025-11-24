@@ -52,6 +52,16 @@ class EventProvider extends ChangeNotifier {
     await loadEvents();
   }
 
+  Future<void> updateEvent(TimelineEvent event) async {
+    await StorageService.saveEvent(event);
+    if (event.isOngoing) {
+      _currentOngoingEvent = event;
+    } else if (_currentOngoingEvent?.id == event.id) {
+      _currentOngoingEvent = null;
+    }
+    await loadEvents();
+  }
+
   Future<void> deleteEvent(String id) async {
     await StorageService.deleteEvent(id);
     await loadEvents();

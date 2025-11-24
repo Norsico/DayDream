@@ -65,30 +65,53 @@ class CommonDialogs {
     String? initialValue,
   }) async {
     final controller = TextEditingController(text: initialValue);
+    final theme = Theme.of(context);
     final result = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
           title,
-          style: Theme.of(context).textTheme.headlineMedium,
+          style: theme.textTheme.headlineMedium,
         ),
         content: TextField(
           controller: controller,
           autofocus: true,
-          style: Theme.of(context).textTheme.bodyMedium,
+          style: theme.textTheme.bodyMedium,
           decoration: InputDecoration(
             hintText: hint,
+            filled: true,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
-          maxLines: 1,
+          keyboardType: TextInputType.multiline,
+          maxLines: null,
+          minLines: 1,
+          maxLength: 100,
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('取消'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(controller.text),
-            child: const Text('确定'),
+          Padding(
+            padding: const EdgeInsets.only(right: 12, bottom: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                OutlinedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: theme.textTheme.bodySmall?.color,
+                    side: BorderSide(
+                      color: theme.colorScheme.primary.withOpacity(0.4),
+                    ),
+                  ),
+                  child: const Text('取消'),
+                ),
+                const SizedBox(width: 12),
+                FilledButton(
+                  onPressed: () => Navigator.of(context).pop(controller.text),
+                  child: const Text('确定'),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -103,31 +126,52 @@ class CommonDialogs {
     String? initialValue,
   }) async {
     final controller = TextEditingController(text: initialValue);
+    final theme = Theme.of(context);
     final result = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
           title,
-          style: Theme.of(context).textTheme.headlineMedium,
+          style: theme.textTheme.headlineMedium,
         ),
         content: TextField(
           controller: controller,
           autofocus: true,
-          style: Theme.of(context).textTheme.bodyMedium,
+          style: theme.textTheme.bodyMedium,
           decoration: InputDecoration(
             hintText: hint,
+            filled: true,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
-          maxLines: 5,
+          maxLines: 6,
           minLines: 3,
+          maxLength: 300,
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('取消'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(controller.text),
-            child: const Text('确定'),
+          Padding(
+            padding: const EdgeInsets.only(right: 12, bottom: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                OutlinedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: theme.textTheme.bodySmall?.color,
+                    side: BorderSide(
+                      color: theme.colorScheme.primary.withOpacity(0.4),
+                    ),
+                  ),
+                  child: const Text('取消'),
+                ),
+                const SizedBox(width: 12),
+                FilledButton(
+                  onPressed: () => Navigator.of(context).pop(controller.text),
+                  child: const Text('确定'),
+                ),
+              ],
+            ),
           ),
         ],
       ),

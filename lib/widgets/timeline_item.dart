@@ -7,12 +7,14 @@ class TimelineItem extends StatelessWidget {
   final TimelineEvent event;
   final bool isFirst;
   final bool isLast;
+  final VoidCallback? onLongPress;
 
   const TimelineItem({
     super.key,
     required this.event,
     required this.isFirst,
     required this.isLast,
+    this.onLongPress,
   });
 
   @override
@@ -20,10 +22,12 @@ class TimelineItem extends StatelessWidget {
     final theme = Theme.of(context);
     final ongoing = event.isOngoing;
 
-    return IntrinsicHeight(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Row(
+    return GestureDetector(
+      onLongPress: onLongPress,
+      child: IntrinsicHeight(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Column(

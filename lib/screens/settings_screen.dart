@@ -48,14 +48,38 @@ class SettingsScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Card(
-            child: ListTile(
-              leading: CircleAvatar(
-                backgroundColor: theme.colorScheme.primary.withOpacity(0.08),
-                backgroundImage: const AssetImage('logo.png'),
-                radius: 24,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      style: theme.textTheme.bodyMedium,
+                      children: [
+                        TextSpan(
+                          text: '作者名称: ',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const TextSpan(text: 'Norsico'),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  RichText(
+                    text: TextSpan(
+                      style: theme.textTheme.bodyMedium,
+                      children: [
+                        TextSpan(
+                          text: 'Github主页: ',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const TextSpan(text: 'https://github.com/Norsico'),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              title: const Text('作者名称: Norsico'),
-              subtitle: const Text('Github主页: https://github.com/Norsico'),
             ),
           ),
         ],

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../models/timeline_entry.dart';
 import '../providers/event_provider.dart';
 import '../utils/date_utils.dart';
 import '../widgets/common_dialogs.dart';
 import '../widgets/timeline_item.dart';
+import '../widgets/edit_event_dialog.dart';
 
 class TodayScreen extends StatelessWidget {
   const TodayScreen({super.key});
@@ -60,6 +62,11 @@ class TodayScreen extends StatelessWidget {
                   event: todayEvents[index],
                   isFirst: index == 0,
                   isLast: index == todayEvents.length - 1,
+                  onLongPress: () => _handleEditEvent(
+                    context,
+                    eventProvider,
+                    todayEvents[index],
+                  ),
                 );
               },
             ),
@@ -68,6 +75,44 @@ class TodayScreen extends StatelessWidget {
         child: Icon(hasOngoingEvent ? Icons.stop : Icons.add),
       ),
     );
+  }
+
+  Future<void> _handleEditEvent(
+    BuildContext context,
+    EventProvider eventProvider,
+    TimelineEvent event,
+  ) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final result = await showDialog<dynamic>(
+      context: context,
+      builder: (_) => EditEventDialog(event: event),
+    );
+    if (result == null) {
+      return;
+    }
+
+    if (result == 'delete') {
+      final confirmed = await CommonDialogs.showConfirmDialog(
+        context,
+        title: '删除事件',
+        message: '确定要删除当前事件吗？',
+      );
+      if (!confirmed) {
+        return;
+      }
+      await eventProvider.deleteEvent(event.id);
+      messenger.showSnackBar(
+        const SnackBar(content: Text('事件已删除')),
+      );
+      return;
+    }
+
+    if (result is TimelineEvent) {
+      await eventProvider.updateEvent(result);
+      messenger.showSnackBar(
+        const SnackBar(content: Text('事件已更新')),
+      );
+    }
   }
 
   Future<void> _handleFabPress(
@@ -92,11 +137,10 @@ class TodayScreen extends StatelessWidget {
         return;
       }
       if (title.trim().isEmpty) {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('内容不能为空')), 
-          );
-        }
+        final messenger = ScaffoldMessenger.of(context);
+        messenger.showSnackBar(
+          const SnackBar(content: Text('内容不能为空')),
+        );
         return;
       }
       await eventProvider.startEvent(title);
