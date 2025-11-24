@@ -122,9 +122,25 @@ class _EditEventDialogState extends State<EditEventDialog> {
     final theme = Theme.of(context);
 
     return AlertDialog(
-      title: Text(
-        '编辑事件',
-        style: theme.textTheme.headlineMedium,
+      title: Row(
+        children: [
+          Expanded(
+            child: Text(
+              '编辑事件',
+              style: theme.textTheme.headlineMedium,
+            ),
+          ),
+          TextButton.icon(
+            onPressed: _handleDelete,
+            icon: const Icon(Icons.delete_outline, size: 18),
+            label: const Text('删除'),
+            style: TextButton.styleFrom(
+              foregroundColor: theme.colorScheme.error,
+              visualDensity: VisualDensity.compact,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+            ),
+          ),
+        ],
       ),
       content: SingleChildScrollView(
         padding: const EdgeInsets.only(top: 8),
@@ -201,43 +217,22 @@ class _EditEventDialogState extends State<EditEventDialog> {
           ],
         ),
       ),
+      actionsAlignment: MainAxisAlignment.end,
+      actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
       actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 12, bottom: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              TextButton.icon(
-                onPressed: _handleDelete,
-                icon: const Icon(Icons.delete_outline),
-                label: const Text('删除'),
-                style: TextButton.styleFrom(
-                  foregroundColor: theme.colorScheme.error,
-                ),
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  OutlinedButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: theme.textTheme.bodySmall?.color,
-                      side: BorderSide(
-                        color: theme.colorScheme.primary.withOpacity(0.4),
-                      ),
-                    ),
-                    child: const Text('取消'),
-                  ),
-                  const SizedBox(width: 12),
-                  FilledButton(
-                    onPressed: _handleSave,
-                    child: const Text('保存'),
-                  ),
-                ],
-              ),
-            ],
+        OutlinedButton(
+          onPressed: () => Navigator.of(context).pop(),
+          style: OutlinedButton.styleFrom(
+            foregroundColor: theme.textTheme.bodySmall?.color,
+            side: BorderSide(
+              color: theme.colorScheme.primary.withOpacity(0.4),
+            ),
           ),
+          child: const Text('取消'),
+        ),
+        FilledButton(
+          onPressed: _handleSave,
+          child: const Text('保存'),
         ),
       ],
     );

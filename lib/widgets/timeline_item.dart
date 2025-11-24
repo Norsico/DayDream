@@ -130,7 +130,8 @@ class TimelineItem extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ),
+  );
   }
 
   Widget _buildBadge(

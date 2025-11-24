@@ -5,7 +5,6 @@ import '../providers/event_provider.dart';
 import '../utils/date_utils.dart';
 import '../models/timeline_entry.dart';
 import '../widgets/timeline_item.dart';
-import '../widgets/edit_event_dialog.dart';
 import 'history_calendar_screen.dart';
 
 class PastDaysScreen extends StatelessWidget {
@@ -68,7 +67,7 @@ class PastDaysScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 16, bottom: 8),
             child: Text(
-              currentMonthLabel!,
+              currentMonthLabel,
               style: theme.textTheme.headlineSmall,
             ),
           ),
