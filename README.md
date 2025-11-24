@@ -34,7 +34,16 @@ flutter pub get
 flutter run
 ```
 
+## 截图预览
+
+| | | |
+| --- | --- | --- |
+| ![](img/1.jpg) | ![](img/3.jpg) | ![](img/2.jpg) |
+| ![](img/4.jpg) | ![](img/5.jpg) | ![](img/6.jpg) |
+
 ## 作者
 
 **Norsico**
 - GitHub: https://github.com/Norsico
+
+
